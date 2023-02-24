@@ -14,7 +14,7 @@ int main() {
 	for (int i = 0; i <= b; i++) arr[i] = 1;
 
 	for (int i = 2; i <= sqrt(b); i++) {
-		if (arr[i]) {
+		if (arr[i]) { // 에라토스테네스의 체
 			k = 2;
 			while (i * k <= b) {
 				arr[i * k] = 0;
@@ -22,7 +22,7 @@ int main() {
 			}
 		}
 	}
-	for (int i = a; i <= b; i++) {
+	for (int i = a; i <= b; i++) { // 1은 소수에서 제외
 		if (arr[i] && i != 1) printf("%d\n", i);
 	}
 
