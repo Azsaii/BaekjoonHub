@@ -70,10 +70,7 @@ int main() {
 		}
 
 		else if (strcmp(order, "push") == 0) {
-			//char* num = strtok(order, " ");
-			//num = strtok(NULL, " ");
 			scanf("%d", &n);
-			//n = atoi(num);
 			push(&s, n);
 		}
 	}
