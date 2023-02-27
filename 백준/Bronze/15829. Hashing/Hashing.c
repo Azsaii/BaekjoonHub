@@ -8,9 +8,9 @@ int main() {
 	scanf("%d", &size);
 	scanf("%s", str);
 
-	int rtmp = 1;
-	int r = 31;
 	int M = 1234567891;
+	int r = 31;
+	unsigned long long int rtmp = 1;
 	unsigned long long int res = 0;
 
 	for (int i = 0; i < size; i++) {		
