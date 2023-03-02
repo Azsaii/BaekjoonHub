@@ -33,7 +33,7 @@ int main()
             cntB = 0; 
             cntW = 0;
 
-            for (int x = i; x < i + 8; x++) { // 체스판의 첫 색이 검정색일 때 기준으로 고쳐야 할 칸의 수를 구한다.
+            for (int x = i; x < i + 8; x++) { 
                 for (int y = k; y < k + 8; y++) {
                     if ((x + y) % 2 == 0) { // x, y 모두가 짝수이거나 모두가 홀수인 경우
                         if (map[x][y] == 'W') cntW++; 
