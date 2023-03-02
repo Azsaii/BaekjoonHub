@@ -19,7 +19,7 @@ int compare(const void* a, const void* b)    // 퀵정렬에 사용
     if (num1.x > num2.x)    // a가 b보다 클 때는
         return 1;       // 1 반환
 
-    if (num1.x == num2.x) {
+    if (num1.x == num2.x) { // x좌표가 같은 경우, y좌표로 정렬한다.
         if (num1.y < num2.y)    
             return -1;      
 
