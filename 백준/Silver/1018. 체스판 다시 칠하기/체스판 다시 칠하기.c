@@ -26,7 +26,7 @@ int main()
 
     int cntB = 0;
     int cntW = 0;
-    int min = MAX;
+    int min = 10000;
 
     for (int i = 0; i < n - 7; i++) { 
         for (int k = 0; k < m - 7; k++) {              
