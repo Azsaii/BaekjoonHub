@@ -75,7 +75,7 @@ int bfs_mat(GraphType* g, Point* p, int n, int m, int index, int blank)
 	int time = 0; // 걸리는 시간
 	int count = 0; // 오늘 익을 토마토 수
 	int next = 0; // 내일 익을 토마토 수
-	int total = m * n - blank; // 토마토의 수
+	int total = m * n - blank; // 전체 토마토의 수
 	QueueType q;
 	Point v;
 
@@ -92,7 +92,7 @@ int bfs_mat(GraphType* g, Point* p, int n, int m, int index, int blank)
 		total--; // 익지 않은 토마토의 숫자를 줄인다.
 		if (total != 0 && count == 0) time++;
 
-		// 익은 토마토의 상하좌우를 탐색해서 안익은 토마토를 1로 바꾼다.
+		// 익은 토마토의 상하좌우를 탐색해서 안 익은 토마토를 1로 바꾼다.
 		if (v.x != 0 && g->adj_mat[v.x - 1][v.y] == 0) { // 상
 			g->adj_mat[v.x - 1][v.y] = 1;
 			enqueue(&q, v.x - 1, v.y);
