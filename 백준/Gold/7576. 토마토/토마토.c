@@ -159,5 +159,6 @@ int main(void)
 
 	printf("%d", bfs_mat(g, p, n, m, index, blank));
 	free(g);
+	free(p);
 	return 0;
 }
