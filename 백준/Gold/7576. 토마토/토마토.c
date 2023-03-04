@@ -55,7 +55,6 @@ Point dequeue(QueueType* q)
 
 #define MAX_VERTICES 1000
 typedef struct GraphType {
-	int n;	// 정점의 개수
 	int adj_mat[MAX_VERTICES][MAX_VERTICES];
 } GraphType;
 
@@ -63,7 +62,6 @@ typedef struct GraphType {
 void graph_init(GraphType* g)
 {
 	int r, c;
-	g->n = 0;
 	for (r = 0; r < MAX_VERTICES; r++)
 		for (c = 0; c < MAX_VERTICES; c++)
 			g->adj_mat[r][c] = 9;
@@ -87,10 +85,10 @@ int bfs_mat(GraphType* g, Point* start, int n, int m, int index, int blank)
 	}
 
 	while (!is_empty(&q)) {
-		v = dequeue(&q);		// 익지 않은 토마토를 검사하기 위한 익은 토마토의 위치를 뽑아낸다.
+		v = dequeue(&q);		// 익지 않은 토마토를 검사하기 위해 익은 토마토의 위치를 뽑아낸다.
 		count--; // 오늘 익을 토마토의 숫자를 줄인다.
 		total--; // 익지 않은 토마토의 숫자를 줄인다.
-		if (total != 0 && count == 0) time++;
+		if (total != 0 && count == 0) time++; // 오늘 익을 토마토가 모두 익었고, 내일 익을 토마토가 남아있으면 하루를 더 센다.
 
 		// 익은 토마토의 상하좌우를 탐색해서 안 익은 토마토를 1로 바꾼다.
 		if (v.x != 0 && g->adj_mat[v.x - 1][v.y] == 0) { // 상
@@ -137,7 +135,7 @@ int main(void)
 	int tmp = 0, check = 0, blank = 0, index = 0;
 	scanf("%d %d", &n, &m);
 
-	Point* start;
+	Point* start; // 초기에 익은 토마토의 위치를 저장할 구조체
 	start = (Point*)malloc(sizeof(Point) * m * n);
 
 	for (int i = 0; i < m; i++) {
@@ -152,7 +150,7 @@ int main(void)
 		}
 	}
 
-	if (index == 0) {
+	if (index == 0) { // 초기에 익은 토마토가  없는 경우
 		printf("-1");
 		return 0;
 	}
