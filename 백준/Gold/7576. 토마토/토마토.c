@@ -70,7 +70,7 @@ void graph_init(GraphType* g)
 	return;
 }
 
-int bfs_mat(GraphType* g, Point* p, int n, int m, int index, int blank)
+int bfs_mat(GraphType* g, Point* start, int n, int m, int index, int blank)
 {
 	int time = 0; // 걸리는 시간
 	int count = 0; // 오늘 익을 토마토 수
@@ -82,7 +82,7 @@ int bfs_mat(GraphType* g, Point* p, int n, int m, int index, int blank)
 	queue_init(&q);     // 큐 초기화 
 
 	for (int i = 0; i < index; i++) {
-		enqueue(&q, p[i].x, p[i].y);		// 시작 정점을 큐에 저장
+		enqueue(&q, start[i].x, start[i].y);		// 시작 정점을 큐에 저장
 		count++;
 	}
 
@@ -137,16 +137,16 @@ int main(void)
 	int tmp = 0, check = 0, blank = 0, index = 0;
 	scanf("%d %d", &n, &m);
 
-	Point* p;
-	p = (Point*)malloc(sizeof(Point) * m * n);
+	Point* start;
+	start = (Point*)malloc(sizeof(Point) * m * n);
 
 	for (int i = 0; i < m; i++) {
 		for (int k = 0; k < n; k++) {
 			scanf("%d", &g->adj_mat[i][k]);
 			if (g->adj_mat[i][k] == -1) blank++;
 			if (g->adj_mat[i][k] == 1) { // 탐색 시작지점 저장
-				p[index].x = i;
-				p[index].y = k;
+				start[index].x = i;
+				start[index].y = k;
 				index++;
 			}
 		}
@@ -157,8 +157,8 @@ int main(void)
 		return 0;
 	}
 
-	printf("%d", bfs_mat(g, p, n, m, index, blank));
+	printf("%d", bfs_mat(g, start, n, m, index, blank));
 	free(g);
-	free(p);
+	free(start);
 	return 0;
 }
