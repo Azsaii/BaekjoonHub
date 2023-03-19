@@ -26,14 +26,14 @@ int main()
 
     int cntB = 0;
     int cntW = 0;
-    int min = 10000;
+    int min = MAX;
 
     for (int i = 0; i < n - 7; i++) { 
         for (int k = 0; k < m - 7; k++) {              
             cntB = 0; 
             cntW = 0;
 
-            for (int x = i; x < i + 8; x++) { 
+            for (int x = i; x < i + 8; x++) { // 체스판의 첫 색이 검정색일 때 기준으로 고쳐야 할 칸의 수를 구한다.
                 for (int y = k; y < k + 8; y++) {
                     if ((x + y) % 2 == 0) { // x, y 모두가 짝수이거나 모두가 홀수인 경우
                         if (map[x][y] == 'W') cntW++; 
