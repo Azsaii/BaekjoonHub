@@ -1,54 +1,36 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
-#define MAX 50
+#include <unistd.h>
 
-int main()
-{
-    int m = 0, n = 0; // m이 가로, n이 세로
-    char tmp = '0';
-    scanf("%d %d", &n, &m);
+#define ReadInt(n) { \
+    char c = *p++; \
+    for (; ~c & 16; c = *p++); \
+    for (; c & 16; c = *p++) n = 10 * n + (c & 15); }
 
-    char map[MAX][MAX] = { '0',};
-    int check[MAX][MAX] = { 2, };
+#define WriteInt(n) { \
+    int m = n, sz = GetSize(m); \
+    for (int j = sz; j --> 0; m /= 10) w[i + j] = m % 10 | 48; \
+    i += sz; }
 
-    for (int i = 0; i < n; i++) {
-        for (int k = 0; k < m; k++) {
-            scanf("%c", &tmp);
-            if (tmp == '\n') k--;
-            else if (tmp != '\n') {
-                map[i][k] = tmp;
+inline int GetSize(int n) {
+    int ret = 1;
+    for (n = n >= 0 ? n : -n; n >= 10; n /= 10) ret++;
+    return ret; }
+
+__libc_start_main() {
+    char r[65536], w[2048], *p = r; syscall(0, 0, r, 65536);
+    int n = 0, m = 0, mn = 1e9, i = 0; ReadInt(n); ReadInt(m);
+    int imax = n - 8, jmax = m - 8;
+    for (int x = 0; x <= imax; x++) {
+        for (int y = 0; y <= jmax; y++) {
+            int cnt = 0;
+            char color = p[x * (m + 1) + y];
+            for (int k = 0; k < 64; k++) {
+                int i = k >> 3, j = k & 7;
+                cnt += (p[(x + i) * (m + 1) + (y + j)] != color) ^ ((i + j) & 1);
             }
+            mn = mn > cnt ? cnt : mn;
+            mn = mn > 64 - cnt ? 64 - cnt : mn;
         }
     }
-
-    // cntB와 cntW는 둘 중 더 작은 수가 고쳐야 할 칸의 수이다.
-    // cntB와 cntW의 합은 항상 8 * 8 = 64이다. 정상적인 경우에, 한 쪽 값은 64, 다른 한 쪽은 0이 된다.
-
-    int cntB = 0;
-    int cntW = 0;
-    int min = MAX;
-
-    for (int i = 0; i < n - 7; i++) { 
-        for (int k = 0; k < m - 7; k++) {              
-            cntB = 0; 
-            cntW = 0;
-
-            for (int x = i; x < i + 8; x++) { // 체스판의 첫 색이 검정색일 때 기준으로 고쳐야 할 칸의 수를 구한다.
-                for (int y = k; y < k + 8; y++) {
-                    if ((x + y) % 2 == 0) { // x, y 모두가 짝수이거나 모두가 홀수인 경우
-                        if (map[x][y] == 'W') cntW++; 
-                        else cntB++;
-                    }
-                    else {
-                        if (map[x][y] == 'W') cntB++;
-                        else cntW++;
-                    }
-                }
-            }
-
-            min = min < cntB ? min : cntB;
-            min = min < cntW ? min : cntW;
-        }
-    }
-    printf("%d", min);
-}
+    WriteInt(mn); w[i++] = '\n';
+    syscall(1, 1, w, i); _exit(0);
+} main;
