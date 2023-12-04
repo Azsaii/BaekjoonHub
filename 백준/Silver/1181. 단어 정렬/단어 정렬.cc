@@ -1,36 +1,44 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <string.h>
 #include <algorithm>
 #include <vector>
 using namespace std;
 
-bool cmp(const pair<string, int>& a, const pair<string, int>& b){
-    return a.second < b.second;
+struct WordSturct {
+    int size;
+    char word[51];
+};
+
+bool cmp(const WordSturct& a, const WordSturct& b){
+    if(a.size == b.size) {
+        for(int i = 0; i < a.size; i++){
+            if(a.word[i] == b.word[i]) continue;
+            return a.word[i] < b.word[i];
+        }
+    }
+    return a.size < b.size;
 }
 
-void sort(map<string, int>& map) {
-    vector<pair<string,int>> vec;
-    for(auto& it : map){
-        vec.push_back(it);
-    }
-    stable_sort(vec.begin(), vec.end(), cmp);
-
-    for(auto& it : vec){
-        cout << it.first << endl;
-    }
+void sort(WordSturct& s) {
+    
 }
 
 int main(void){
+    WordSturct word[20001];
     int n;
-    string s;
     cin >> n;
 
-    map<string, int> map;
-    while(n--){
-        cin >> s;
-        map.insert(pair<string, int>(s, s.length()));
+    for(int i = 0; i < n; i++){
+        cin >> word[i].word;
+        word[i].size = strlen(word[i].word);
     }
-    
-    sort(map);
+    stable_sort(word, word + n, cmp);
+
+    cout << word[0].word << endl;
+    for(int i = 1; i < n; i++) {
+        if(strcmp(word[i - 1].word, word[i].word) == 0) continue;
+        cout << word[i].word << endl;
+    }
 }
