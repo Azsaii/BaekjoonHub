@@ -1,6 +1,5 @@
 #include <iostream>
 #include <algorithm>
-#include <vector>
 using namespace std;
 
 int main(void) {
@@ -10,7 +9,6 @@ int main(void) {
     int n = 0;
     string str;
     cin >> n;
-    vector<string> v(n);
     
     for (int i = 0; i < n; i++) {
         cin >> str;
