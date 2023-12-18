@@ -15,8 +15,10 @@ void dfs(int x, int y, int count, int sum, int n, int m) {
         return;
     }
 
+    // 가능성 없으면 리턴
     if (sum + (4 - count) * highest <= maxSum) return;
 
+    // 'ㅗ' 이외 모양 판별
     for (int i = 0; i < 4; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
@@ -27,6 +29,7 @@ void dfs(int x, int y, int count, int sum, int n, int m) {
         }
     }
 
+    // 'ㅗ' 모양 판별
     if (count == 1) {
         if (x > 0 && x < n - 1) {
             int tempSum = arr[x - 1][y] + arr[x][y] + arr[x + 1][y];
