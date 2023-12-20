@@ -1,9 +1,14 @@
 #include <iostream>
 #include <string>
-
 using namespace std;
 
 short broken[10] = { 0, };
+
+void init() {
+    cin.tie(0);
+    cout.tie(0);
+    ios_base::sync_with_stdio(false);
+}
 
 bool btn_set(int n)
 {
@@ -19,6 +24,7 @@ bool btn_set(int n)
 
 int main()
 {
+    init();
     int n, brokenCnt, cur = 100;
     cin >> n;
     cin >> brokenCnt;
@@ -35,9 +41,8 @@ int main()
     int gap = abs(n - 100); // |목표채널 - 현재채널|
 
     if (n == cur) cout << 0; // 현재채널 = 목적 채널인 경우
-    else if (brokenCnt == 10) cout << gap; // 모든 버튼이 고장난 경우
-    else if (nLength >= gap) cout << gap; // '+' or '-'만 사용
-    else if (nLength < gap && brokenCnt == 0) { cout << nLength;} // 숫자만 입력
+    else if (brokenCnt == 10 || nLength >= gap) cout << gap; // 모든 버튼이 고장난 경우, '+' or '-'만 사용하는게 더 나은 경우
+    else if (nLength < gap && brokenCnt == 0) { cout << nLength; } // 숫자만 입력
 
     else { // 혼합
         for (int i = 0; i <= 1000000; i++)
