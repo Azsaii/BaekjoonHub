@@ -15,15 +15,14 @@ void init() {
 }
 
 int bfs(queue<int> q,int find[], int cnt) {
-    int num = cnt;
-    int res = 0;
-    //cout << "t1" << "\n";
+    int num = cnt; // 큐에 있는 익은 토마토의 수
+    int day = 0; // 날짜
+
     while (!q.empty()) {
         int node = q.front();
         visited[node] = true;
         q.pop();
         num--;
-        //cout << "pop: " << node << "\n";
         
         for (int i = 0; i < 6; i++) {
             int nextNode = node + find[i];
@@ -35,23 +34,18 @@ int bfs(queue<int> q,int find[], int cnt) {
                     q.push(nextNode); // 큐에 익은 토마토 위치 넣기
                     visited[nextNode] = true; // 방문됨 표시
                     zeroCnt--;
-                    //cout << "push: " << nextNode << "\n";
                 }
             }
-            //else cout << "@@@@@trash: " << nextNode << "\n";
         }
 
-        if (num == 0) {
-            res++;
+        if (num == 0) { // 하루가 지났을 때
+            day++;
             num = q.size();
-            if (zeroCnt == 0) {
-                //cout << "out\n";
-                break;
-            }
+            if (zeroCnt == 0) break; // 전부 익은경우 종료
         }
     }
 
-    return res;
+    return day;
 }
 
 int main()
@@ -75,14 +69,14 @@ int main()
         }
     }
 
-    if (zeroCnt == 0) {
+    if (zeroCnt == 0) { // 전부 익었을 경우
         cout << 0;
         return 0;
     }
 
     cnt = bfs(q, find, q.size());
 
-    if (zeroCnt != 0) {
+    if (zeroCnt != 0) { // 불가능한 경우
         cout << -1;
         return 0;
     }
