@@ -25,10 +25,7 @@ void bfs() {
         q.pop();
         int maxIndex = 0;
 
-       // cout << "pop index: " << index << "\n";
-
         if (index == 100) {
-            //cout << "new cnt : " << cnt << "\n";
             res = min(res, cnt);
             continue;
         }
@@ -37,19 +34,17 @@ void bfs() {
             int nextIndex = index + i;
             if (nextIndex > 100 || visited[nextIndex]) continue;
 
-            if (snakeLadder[nextIndex] != -1 && !visited[nextIndex]) {
+            if (snakeLadder[nextIndex] != -1 && !visited[nextIndex]) { // 뱀이나 사다리가 있는 경우
                 visited[nextIndex] = true;
                 visited[snakeLadder[nextIndex]] = true;
                 q.push(make_pair(snakeLadder[nextIndex], cnt + 1));
-                //cout << "p1: snakeLadder[" << nextIndex << "] = " << snakeLadder[nextIndex] << "\n";
             }
             else maxIndex = max(maxIndex, nextIndex);
         }
 
-        if (maxIndex != 0) {
+        if (maxIndex != 0) { // 뱀이나 사다리 제외 가장 큰 칸 push
             visited[maxIndex] = true;
             q.push(make_pair(maxIndex, cnt + 1));
-            //cout << "p2 maxIndex = " << maxIndex << "\n";
         }
     }
 }
