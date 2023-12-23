@@ -6,11 +6,8 @@ using namespace std;
 
 int inf = INT_MAX;
 vector<int> g(400, 0);
-vector<int> dis(400, inf);
 vector<int> fishPos;
-
 int res = 0, fishCnt = 0, level = 2, levelCnt = 2, n;
-
 
 void init() {
     cin.tie(0);
@@ -18,22 +15,19 @@ void init() {
     ios_base::sync_with_stdio(false);
 }
 
-int bfs(int startIndex, int desIndex) {
+int bfs(int startIndex, int desIndex) { // 상어가 정해진 물고기를 먹으러 가는데 걸리는 최단거리 구하기
     queue<pair<int, int>> q; // 위치와 이동거리
     vector<bool> visited(400, false);
     q.push(make_pair(startIndex, 0));
     visited[startIndex] = true;
     int distance = inf;
     int findIndex[4] = { 1, -1, n, -n };
-    //cout << "startIndex: " << startIndex << ", desIndex: " << desIndex << "\n";
 
     while (!q.empty()) {
         int node = q.front().first;
         int cnt = q.front().second;
         q.pop();
-        // cout << "pop node: " << node << ", cnt: " << cnt << "\n";
         if (node == desIndex) {
-            //cout << "arrived! node: " << node << ", cnt : " << cnt << "\n";
             distance = min(distance, cnt);
             continue;
         }
@@ -45,23 +39,19 @@ int bfs(int startIndex, int desIndex) {
             if (visited[nextNode] || g[nextNode] > level) continue;
             q.push(make_pair(nextNode, cnt + 1));
             visited[nextNode] = true;
-            //cout << "push nextNode " << nextNode << "\n";
         }
     }
 
-    dis[desIndex] = distance;
-    return distance; // 목적지까지 최단거리 반환
+    return distance;
 }
 
-int updateDistance(int startIndex) {
-    // bfs 여러번 돌려서 dis 업데이트
+int findMinFish(int startIndex) { // 먹을 수 있는 물고기 중 최단거리 물고기 구해서 반환
     int minDistance = inf, minFish = startIndex;
-    for (int i = 0; i < fishCnt; i++) {
+    for (int i = 0; i < fishCnt; i++) { // 물고기 수만큼 반복
         if (g[fishPos[i]] >= level || g[fishPos[i]] == 0 || g[fishPos[i]] == 9) continue;
         
-        int temp = bfs(startIndex, fishPos[i]);   
-        if (minDistance > temp) { // 최단거리의 물고기 업데이트
-            //cout << "bfs start - startIndex: " << startIndex << ", minFish = " << fishPos[i] << "minDis = " << minDistance << "\n";
+        int temp = bfs(startIndex, fishPos[i]); // 후보 물고기를 먹는 데 걸리는 최단거리 구하기
+        if (minDistance > temp) { // 최단거리 물고기 업데이트
             minFish = fishPos[i];
             minDistance = temp;  
         }
@@ -71,20 +61,14 @@ int updateDistance(int startIndex) {
     return minFish;
 }
 
-void eat(int startIndex) {
+void eat(int startIndex) { // 물고기 수만큼 최단거리 물고기 차례로 구해서 먹기
     int cnt = fishCnt;
     while (cnt != 0) {
-        // dis배열 for문돌려서 거리가장 가까운거 선택
-        // 상어 레벨업, 물고기 먹음처리, res += 거리
-        // startIndex 업데이트
-        // 물고기 더 못먹으면 탈출
-        int temp = updateDistance(startIndex);
+        int temp = findMinFish(startIndex);
         if (temp == startIndex) {
-            //cout << "eat 탈출. res = " << res << "cnt: " << cnt << "\n";
             break;
         }
         else {
-            //cout << "상어 이동 " << startIndex << " -> " << temp << " 현재 거리: " << res << "\n";
             g[startIndex] = 0;
             startIndex = temp;
             g[temp] = 9;
@@ -95,8 +79,6 @@ void eat(int startIndex) {
                 level++;
                 levelCnt = level;
             }
-
-            //cout << "------------------------- 상어 레벨: " << level << "\n";
         }
     }
 }
@@ -114,7 +96,6 @@ int main()
         if (temp == 9) startIndex = i;
         else if (temp != 0) {
             fishCnt++;
-            dis[i] = inf;
             fishPos.push_back(i);
         }
     }
