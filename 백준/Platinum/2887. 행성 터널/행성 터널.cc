@@ -62,7 +62,7 @@ int main()
     }
 
     auto compare = [&](int i, int j, auto member) { return member(p[i]) < member(p[j]); };
-    auto calculate_distance = [&](int i, int j, auto member) {
+    auto calc = [&](int i, int j, auto member) {
         int distance = abs(member(p[i]) - member(p[j]));
         edges[i].push_back({ distance, j });
         edges[j].push_back({ distance, i });
@@ -72,9 +72,9 @@ int main()
     sort(y.begin(), y.end(), [&](int i, int j) { return compare(i, j, [](const Pos& p) { return p.y; }); });
     sort(z.begin(), z.end(), [&](int i, int j) { return compare(i, j, [](const Pos& p) { return p.z; }); });
     for (int i = 0; i < N - 1; i++) {
-        calculate_distance(x[i], x[i + 1], [](const Pos& p) { return p.x; });
-        calculate_distance(y[i], y[i + 1], [](const Pos& p) { return p.y; });
-        calculate_distance(z[i], z[i + 1], [](const Pos& p) { return p.z; });
+        calc(x[i], x[i + 1], [](const Pos& p) { return p.x; });
+        calc(y[i], y[i + 1], [](const Pos& p) { return p.y; });
+        calc(z[i], z[i + 1], [](const Pos& p) { return p.z; });
     }
 
     cout << primMST();
