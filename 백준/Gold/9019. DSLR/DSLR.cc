@@ -9,7 +9,7 @@ void init() {
     ios_base::sync_with_stdio(false);
 }
 
-string name[4] = { "D", "S", "L", "R"};
+string name[4] = { "D", "S", "L", "R" };
 int calc(int n, int mode) {
     switch (mode) {
     case 0: return (n * 2) % 10000;
@@ -31,23 +31,21 @@ int main()
         vector<int> visited(10000, 0);
         string str;
         visited[a] = 1;
-        q.push({str, a});
+        q.push({ str, a });
+        bool check = 0;
         while (!q.empty()) {
             string op = q.front().first;
             int node = q.front().second;
             q.pop();
 
-            if (node == b) {
-                cout << op << "\n";
-                break;
-            }
-
             for (int j = 0; j < 4; j++) {
                 int x = calc(node, j);
+                if (x == b) { cout << op + name[j] << "\n"; check = 1; break; }
                 if (visited[x]) continue;
                 visited[x] = 1;
                 q.push(make_pair(op + name[j], x));
             }
+            if (check) { break; }
         }
     }
     return 0;
