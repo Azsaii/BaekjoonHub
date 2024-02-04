@@ -13,7 +13,7 @@ int main() {
     for (int tc = 1; tc <= T; ++tc) {
         uint64_t N;
         cin >> N;
-        int64_t t = sqrt(N * 2);
+        int64_t t = floor(sqrt(N * 2));
         if ((t * (t + 1)) / 2 != N) t = -1;
         cout << "#" << tc << " " << t << "\n";
     }
