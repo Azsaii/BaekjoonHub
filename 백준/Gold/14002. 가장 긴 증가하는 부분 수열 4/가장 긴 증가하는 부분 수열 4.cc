@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-int v[1'000'001], lis[1'000'001], idx[1'000'001];
+int v[1000], lis[1000], idx[1000];
 using namespace std;
 void init() {
     cin.tie(0);
