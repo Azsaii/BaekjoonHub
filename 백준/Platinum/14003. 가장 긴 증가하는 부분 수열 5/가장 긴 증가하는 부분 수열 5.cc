@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+int v[1'000'001], lis[1'000'001], idx[1'000'001];
 using namespace std;
 void init() {
     cin.tie(0);
@@ -9,30 +9,35 @@ void init() {
 }
 int main() {
     init();
-    int N;
+    int N, cnt = 0;
     cin >> N;
-    vector<int> v(N), lis, idx(N), res;
     for (int i = 0; i < N; i++) cin >> v[i];
-    lis.push_back(v[0]);
+    lis[0] = v[0];
     idx[0] = 0;
     for (int i = 1; i < N; i++) {
-        if (lis.back() < v[i]) {
-            lis.push_back(v[i]);
-            idx[i] = lis.size() - 1;
+        if (lis[cnt] < v[i]) {
+            lis[++cnt] = v[i];
+            idx[i] = cnt;
         }
         else {
-            auto it = lower_bound(lis.begin(), lis.end(), v[i]);
-            *it = v[i];
-            idx[i] = distance(lis.begin(), it);
+            int s = 0, e = cnt;
+            while (s < e) {
+                int m = (s + e) / 2;
+                if (lis[m] >= v[i]) e = m;
+                else s = m + 1;
+            }
+            lis[e] = v[i];
+            idx[i] = e;
         }
     }
-    for (int i = N - 1, j = lis.size() - 1; i >= 0; i--) {
+    cout << ++cnt << '\n';
+    vector<int> res;
+    for (int i = N - 1, j = cnt - 1; i >= 0; i--) {
         if (idx[i] == j) {
             res.push_back(v[i]);
             j--;
         }
     }
-    cout << lis.size() << '\n';
     for (int i = res.size() - 1; i >= 0; i--) cout << res[i] << ' ';
     return 0;
 }
