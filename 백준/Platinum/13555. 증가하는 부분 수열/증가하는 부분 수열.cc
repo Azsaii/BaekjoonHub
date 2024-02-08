@@ -1,40 +1,43 @@
-#include <iostream>
+#include<bits/stdc++.h>
 #define MOD 5000000
 #define MAX 100001
 using namespace std;
 typedef long long ll;
-ll ft[51][MAX];
-int n, i, j, k, arr[MAX];
+ll dp[MAX], ft[MAX];
+int n, i, j, k, res = 0, arr[MAX];
 void init() {
     cin.tie(0);
     cout.tie(0);
     ios_base::sync_with_stdio(false);
 }
-// 0 ~ p 까지 인덱스에서 길이가 s인 부분 수열 구하기
-ll sum(int s, int p) {
-    if (!s) return 1;
+ll sum(int p) {
     ll res = 0;
     while (p) {
-        res = (res + ft[s][p]) % MOD;
+        res = (res + ft[p]) % MOD;
         p -= p & -p;
     }
     return res;
 }
-// 펜윅 트리 업데이트
-void udt(int s, int p, ll v) {
+void add(int p, ll v) {
     while (p <= MAX) {
-        ft[s][p] = (ft[s][p] + v) % MOD;
+        ft[p] = (ft[p] + v) % MOD;
         p += p & -p;
     }
 }
 int main() {
     init();
     cin >> n >> k;
-    for (i = 1; i <= n; i++) cin >> arr[i];
     for (i = 1; i <= n; i++) {
-        for (j = 1; j <= k; j++) {
-            udt(j, arr[i], sum(j - 1, arr[i] - 1));
-        }
+        cin >> arr[i];
+        dp[i] = 1;
     }
-    cout << sum(k, MAX);
+    for (i = 2; i <= k; i++) {
+        memset(ft, 0, sizeof(ft));
+        for (j = 1; j <= n; j++) {
+            add(arr[j], dp[j]);
+            dp[j] = sum(arr[j] - 1);
+        } 
+    }
+    for (i = 1; i <= n; i++) res = (res + dp[i]) % MOD;
+    cout << res;
 }
