@@ -1,14 +1,9 @@
 #include<bits/stdc++.h>
-#define MAX 100001
 using namespace std;
 typedef long long ll;
-ll ft[MAX];
-int n, m, i, j, arr[MAX];
-void init() {
-    cin.tie(0);
-    cout.tie(0);
-    ios_base::sync_with_stdio(false);
-}
+vector<int> v;
+vector<ll> ft;
+int n, m, i, j;
 ll sum(int i) {
     ll ans = 0;
     while (i > 0) {
@@ -17,20 +12,25 @@ ll sum(int i) {
     }
     return ans;
 }
-void upd(int i, int num) {
-    while (i <= n) {
-        ft[i] += num;
-        i += i & -i;
+void upd(int p, int num) {
+    while (p <= n) {
+        ft[p] += num;
+        p += p & -p;
     }
 }
 // Fenwick Tree Lazy propagation
 int main() {
-    init();
+    cout.tie(0); cin.tie(0); ios_base::sync_with_stdio(false);
     cin >> n;
-    arr[0] = 0;
+    v.resize(n + 1, 0);
+    ft.resize(n + 1, 0);
     for (i = 1; i <= n; i++) {
-        cin >> arr[i];
-        upd(i, arr[i] - arr[i - 1]);
+        cin >> v[i];
+        ft[i] = v[i] - v[i - 1];
+    }
+    for (i = 1; i <= n; i++) {
+        if (i + (i & -i) > n) continue;
+        ft[i + (i & -i)] += ft[i];
     }
     cin >> m;
     for (i = 0; i < m; i++) {
