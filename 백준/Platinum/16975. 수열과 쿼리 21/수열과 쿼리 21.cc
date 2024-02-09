@@ -34,16 +34,13 @@ int main() {
     }
     cin >> m;
     for (i = 0; i < m; i++) {
-        int a, b, c;
-        cin >> a;
-        if (a == 1) {
-            cin >> a >> b >> c;
+        int k, a, b, c;
+        cin >> k >> a;
+        if (k & 1) {
+            cin >> b >> c;
             upd(a, c);
             upd(b + 1, -c);
         }
-        else if (a == 2) {
-            cin >> b;
-            cout << sum(b) << '\n';
-        }
+        else cout << sum(a) << '\n';
     }
 }
