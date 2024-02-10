@@ -131,8 +131,8 @@ int main() {
 		ll a, b, c;
 		cin >> a >> b >> c;
 		if (a & 1) {
-			upd(b, -v[b]);
-			upd(b, c);
+			ll t = c - v[b];
+			upd(b, t);
 			v[b] = c;
 		}
 		else cout << sum(c) - sum(b - 1) << '\n';
