@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #define N 1025
 using namespace std;
-
 constexpr int SZ = 1 << 20;
 
 class INPUT {
@@ -111,29 +110,44 @@ OUTPUT& operator<< (OUTPUT& out, T i) {
 #define ostream OUTPUT
 
 int v[N][N], ft[N][N];
-int n, m, k, i, j, vsize;
+int n, m, k, i, j;
+void initTree() {
+	for (i = 1; i <= n; i++) {
+		for (j = 1; j <= n; j++) {
+			int nj = j + (j & -j);
+			if (nj <= n) ft[i][nj] += ft[i][j];
+		}
+	}
+	for (j = 1; j <= n; j++) {
+		for (i = 1; i <= n; i++) {
+			int ni = i + (i & -i);
+			if (ni <= n) ft[ni][j] += ft[i][j];
+		}
+	}
+}
 int sum(int p, int q) { // p행 q열
 	int ret = 0;
 	for (; q > 0; q -= q & -q) {
 		int t = p;
-		for (; t > 0; t -= t & -t) ret += ft[q][t];
+		for (; t > 0; t -= t & -t) ret += ft[t][q];
 	}
 	return ret;
 }
 void upd(int p, int q, int num) {
 	for (; q <= n; q += q & -q) {
 		int t = p;
-		for (; t <= n; t += t & -t) ft[q][t] += num;
+		for (; t <= n; t += t & -t) ft[t][q] += num;
 	}
 }
 int main() {
 	cin >> n >> m;
 	for (i = 1; i <= n; i++) {
 		for (j = 1; j <= n; j++) {
-			cin >> v[j][i];
-			upd(i, j, v[j][i]);
+			cin >> ft[i][j];
+			v[i][j] = ft[i][j];
 		}
 	}
+	initTree();
 	for (i = 0; i < m; i++) {
 		int o, a, b, c, d;
 		cin >> o >> a >> b >> c;	
@@ -142,9 +156,9 @@ int main() {
 			cout << sum(c, d) - sum(a - 1, d) - sum(c, b - 1) + sum(a - 1, b - 1) << '\n';
 		}
 		else {
-			k = c - v[b][a];
+			k = c - v[a][b];
 			upd(a, b, k);
-			v[b][a] = c;
+			v[a][b] = c;
 		}
 	}
 }
