@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#define pii pair<int, int>
 using namespace std;
 constexpr int SZ = 1 << 20;
 typedef long long ll;
@@ -110,7 +111,7 @@ OUTPUT& operator<< (OUTPUT& out, T i) {
 #define ostream OUTPUT
 
 int n, m;
-vector<ll> arr, mint, maxt;
+vector<int> arr, mint, maxt;
 void init(int node, int s, int e) {
     if (s == e) { 
         mint[node] = maxt[node] = arr[s];
@@ -124,11 +125,11 @@ void init(int node, int s, int e) {
         return;
     }
 }
-pair<ll, ll> queryMinMax(int node, int s, int e, int l, int r) {
+pii queryMinMax(int node, int s, int e, int l, int r) {
     if (l > e || r < s) return { INT32_MAX, 0 };
     else if (l <= s && e <= r) return { mint[node], maxt[node]};
-    pair<ll, ll> a = queryMinMax(node * 2 + 1, (s + e) / 2 + 1, e, l, r);
-    pair<ll, ll> b = queryMinMax(node * 2, s, (s + e) / 2, l, r);
+    pii a = queryMinMax(node * 2 + 1, (s + e) / 2 + 1, e, l, r);
+    pii b = queryMinMax(node * 2, s, (s + e) / 2, l, r);
     return { min(a.first, b.first), max(a.second, b.second)};
 }
 int main() {
@@ -140,7 +141,7 @@ int main() {
     int a, b;
     while (m--) {
         cin >> a >> b;
-        pair<ll, ll> res = queryMinMax(1, 0, n - 1, a - 1, b - 1);
+        pii res = queryMinMax(1, 0, n - 1, a - 1, b - 1);
         cout << res.first << ' ' << res.second << '\n';
     }
     return 0;
