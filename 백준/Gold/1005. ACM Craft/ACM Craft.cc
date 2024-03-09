@@ -111,7 +111,6 @@ OUTPUT& operator<< (OUTPUT& out, T i) {
 
 vector<int> tv, save;
 vector<vector<int>> g;
-int sum = 0;
 void dfs(int x) {
 	save[x] = tv[x];
 	int maxv = 0;
@@ -125,7 +124,7 @@ int main() {
 	int T;
 	cin >> T;
 	for (int tc = 0; tc < T; ++tc) {
-		int N, K, a, b, target, res = 0;
+		int N, K, a, b, target;
 		cin >> N >> K;
 		tv.clear(); tv.resize(N + 1);
 		save.clear(); save.resize(N + 1, -1);
