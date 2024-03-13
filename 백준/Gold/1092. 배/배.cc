@@ -16,6 +16,9 @@ int main() {
 	}
 	if (ch) { cout << "-1"; return 0; }
 	sort(bv.rbegin(), bv.rend());
+	for (int i = 0; i < N; i++) {
+		if (cv[i] < bv[M - 1]) { N = i; break; }
+	}
 	int am = M;
 	while (cnt < M) {
 		for (int i = 0; i < N; i++) {
