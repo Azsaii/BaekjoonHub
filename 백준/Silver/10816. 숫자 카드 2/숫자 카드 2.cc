@@ -7,8 +7,8 @@ int main() {
     unordered_map<int, int> m;
     for (int i = 0; i < N; i++) { cin >> t; if (m.find(t) == m.end())m[t] = 1; else m[t]++; }
     cin >> M;
-    vector<int> n(M), res(M);
-    for (int i = 0; i < M; i++) { cin >> n[i]; res[i] = m[n[i]]; }
+    vector<int> res(M);
+    for (int i = 0; i < M; i++) { cin >> t; res[i] = m[t]; }
     for (int i = 0; i < M; i++) cout << res[i] << ' ';
     return 0;
 }
