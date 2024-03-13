@@ -2,15 +2,19 @@
 using namespace std;
 int main() {
     cin.tie(0); cout.tie(0); ios::sync_with_stdio(false);
-    int a, b;
+    int a, b, minv = INT32_MAX;
     string s;
-    cin >> a;
-    vector<pair<pair<int, int>, string>> v(a);
+    cin >> a; 
+    vector<vector<string>> v(201);
     for (int i = 0; i < a; i++) {
         cin >> b >> s;
-        v[i] = { {b,i}, s };
+        v[b].push_back(s);
+        minv = min(minv, b);
     }
-    sort(v.begin(), v.end());
-    for (int i = 0; i < a; i++) cout << v[i].first.first << ' ' << v[i].second << '\n';
+    for (int i = minv; i <= 200; i++) {
+        for (string s : v[i]) {
+            cout << i << ' ' << s << '\n';
+        }
+    }
     return 0;
 }
