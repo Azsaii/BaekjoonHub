@@ -19,8 +19,12 @@ int main() {
 	for (int i = 0; i < N; i++) {
 		if (cv[i] < bv[M - 1]) { N = i; break; }
 	}
-	int am = M;
-	while (cnt < M) {
+	int lim = 0;
+	for (int i = 0; i < M; i++) {
+		if (cv[N - 1] >= bv[i]) { lim = i; break; }
+	}
+	int am = lim;
+	while (cnt < lim) {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < am; j++) {
 				if (cv[i] >= bv[j]) { bv.erase(bv.begin() + j); cnt++; am--; break; }
@@ -28,6 +32,10 @@ int main() {
 		}
 		res++;
 	}
+	int o = M - (res * N);
+	if (o > 0) o = (o % N == 0) ? o / N : o / N + 1;
+	else o = 0;
+	res += o;
 	cout << res;
 	return 0;
 }
