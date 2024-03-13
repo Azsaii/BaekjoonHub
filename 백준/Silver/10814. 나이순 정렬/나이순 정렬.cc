@@ -6,13 +6,16 @@ int main() {
     string s;
     cin >> a; 
     vector<vector<string>> v(201);
+    map<int, bool> m;
     for (int i = 0; i < a; i++) {
         cin >> b >> s;
         v[b].push_back(s);
+        m[b] = 1;
     }
-    for (int i = 1; i <= 200; i++) {
-        for (string s : v[i]) {
-            cout << i << ' ' << s << '\n';
+    for (auto it : m) {
+        int c = it.first;
+        for (string str : v[c]) {
+            cout << c << ' ' << str << '\n';
         }
     }
     return 0;
