@@ -1,47 +1,24 @@
 #include <bits/stdc++.h>
 using namespace std;
-bool check(string ipt)
-{
-    stack<char> s;
-    for (auto word : ipt)
-    {
-        if (word == '(' || word == '[') // 1. 여는 괄호인 경우 스택에 push
-            s.push(word);
-        else if (word == ')') // 2. 닫는 괄호인 경우 스택에서 pop(쌍이 맞는 경우)
-        {
-            if (s.empty() || s.top() != '(')
-                return false;
-            s.pop();
+int main() {
+    cin.tie(0); cout.tie(0); ios::sync_with_stdio(0);    
+    while (1) {
+        string str;
+        getline(cin, str);
+        if (str[0] == '.') break;
+        stack<char> s;
+        bool ch = 0; 
+        for (int i = 0; i < str.size(); i++) {
+            char c = str[i];
+            if (ch) continue;
+            if (c == '(' || c == '[') s.push(c);
+            else if (c == ')' || c == ']') {
+                if (!s.empty() && ((s.top() == '(' && c == ')') || (s.top() == '[' && c == ']'))) s.pop();
+                else ch = 1;
+            }
         }
-        else if (word == ']')
-        {
-            if (s.empty() || s.top() != '[')
-                return false;
-            s.pop();
-        }
+        if (!ch && s.empty()) cout << "yes\n";
+        else cout << "no\n";
     }
-
-    if (s.empty()) // 3. 스택이 비지 않은 경우(-> 짝을 짓지 못한 괄호가 있음)
-        return true;
-    else
-        return false;
-}
-int main()
-{
-    cin.tie(0);
-    ios::sync_with_stdio(0);
-
-    string ipt;
-
-    while (true)
-    {
-        getline(cin, ipt);
-        if (ipt == ".")
-            break;
-        bool ans = check(ipt);
-        if (ans)
-            cout << "yes" << '\n';
-        else
-            cout << "no" << '\n';
-    }
+    return 0;
 }
