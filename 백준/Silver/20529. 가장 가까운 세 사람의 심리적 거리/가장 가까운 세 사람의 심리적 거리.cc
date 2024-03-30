@@ -1,9 +1,13 @@
 #include <bits/stdc++.h>
 #define NUM 601
 using namespace std;
-int findDist(string a, string b) {
+int findDist(string a, string b, string c) {
     int res = 0;
-    for (int i = 0; i < 4; i++) if (a[i] != b[i]) res++;
+    for (int i = 0; i < 4; i++) {
+        if (a[i] != b[i]) res++;
+        if (b[i] != c[i]) res++;
+        if (c[i] != a[i]) res++;
+    }
     return res;
 }
 int main() {
@@ -15,12 +19,12 @@ int main() {
         cin >> N;
         vector<string> v;
         unordered_map<string, int> vm;
-        int mode = 0;
+        bool mode = 0;
         for (int i = 0; i < N; i++) {
             cin >> str;
             if (mode == 1) continue;
             if (vm[str] == 2) mode = 1;
-            if (vm[str] != 2) {
+            else {
                 vm[str] += 1;
                 v.push_back(str);
             }
@@ -28,15 +32,10 @@ int main() {
         if (mode == 1) { cout << "0\n"; continue; }
         int minv = INT32_MAX;
         int sz = v.size();
-        vector<vector<int>> dist(sz, vector<int>(sz));
-        for (int i = 0; i < sz - 1; i++) {
-            for (int j = i + 1; j < sz; j++)
-                dist[i][j] = findDist(v[i], v[j]);
-        }
         for (int i = 0; i < sz - 1; i++) {
             for (int j = i + 1; j < sz - 1; j++) {
                 for (int k = j + 1; k < sz; k++) {
-                    minv = min(minv, dist[i][j] + dist[i][k] + dist[j][k]);
+                    minv = min(minv, findDist(v[i], v[j], v[k]));
                 }
             }
         }
