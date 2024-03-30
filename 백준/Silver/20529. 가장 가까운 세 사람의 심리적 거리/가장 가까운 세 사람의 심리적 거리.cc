@@ -13,33 +13,20 @@ int main() {
     string str;
     for (int tc = 0; tc < T; tc++) {
         cin >> N;
-        vector<string> v, tv;
+        vector<string> v;
         unordered_map<string, int> vm;
         int mode = 0;
         for (int i = 0; i < N; i++) {
             cin >> str;
             if (mode == 1) continue;
             if (vm[str] == 2) mode = 1;
-            if (vm[str] == 0) {
-                vm[str] = 1;
-                v.push_back(str);
-            }
-            else if(vm[str] == 1) {
-                mode = 2;
+            if (vm[str] != 2) {
                 vm[str] += 1;
-                tv.push_back(str);
+                v.push_back(str);
             }
         }
         if (mode == 1) { cout << "0\n"; continue; }
         int minv = INT32_MAX;
-        if (mode == 2) {
-            for (int i = 0; i < tv.size(); i++) {
-                for (int j = 0; j < v.size(); j++) {
-                    if (tv[i] == v[j]) continue;
-                    minv = min(minv, 2 * findDist(tv[i], v[j]));
-                }
-            }
-        }
         int sz = v.size();
         vector<vector<int>> dist(sz, vector<int>(sz));
         for (int i = 0; i < sz - 1; i++) {
