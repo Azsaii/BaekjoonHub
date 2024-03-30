@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define INF 99999
+#define NUM 601
 using namespace std;
 int main() {
     cin.tie(0); cout.tie(0); ios::sync_with_stdio(0);
@@ -7,14 +7,13 @@ int main() {
     int dy[4] = { 0, 0, 1, -1 }, dx[4] = { 1, -1, 0, 0 };
     char c;
     cin >> N >> M;
-    vector<vector<char>> v(N);
-    vector<vector<int>> vst(N, vector<int>(M, 0));
+    char v[NUM][NUM], vst[NUM][NUM] = { 0, };
     pair<int, int> cur;
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
             cin >> c;
             if (c == 'I') cur = { i, j };
-            v[i].push_back(c);
+            v[i][j] = c;
         }
     }
     queue<pair<int, int>> q;
