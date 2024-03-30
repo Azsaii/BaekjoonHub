@@ -1,42 +1,33 @@
 #include <bits/stdc++.h>
 #define NUM 601
 using namespace std;
-int findDist(int a, int b) {
-    int calc = a ^ b, res = 0;
-    while (calc > 0) {
-        if (calc & 1) res++;
-        calc >>= 1;
-    }
+int findDist(string a, string b) {
+    int res = 0;
+    for (int i = 0; i < 4; i++) if (a[i] != b[i]) res++;
     return res;
 }
 int main() {
     cin.tie(0); cout.tie(0); ios::sync_with_stdio(0);
     int T, N;
     cin >> T;
-    char alp[4] = { 'I', 'S', 'T', 'J' }, c;   
-    unordered_map<char, int> m;
-    for (int i = 0; i < 4; i++) m[alp[i]] = i;
+    string str;
     for (int tc = 0; tc < T; tc++) {
         cin >> N;
-        vector<int> v, tv;
-        unordered_map<int, int> vm;
+        vector<string> v, tv;
+        unordered_map<string, int> vm;
         int mode = 0;
         for (int i = 0; i < N; i++) {
-            int cur = 0; string str;
-            if (mode == 1) { cin >> str; continue; }
-            for (int j = 0; j < 4; j++) {
-                cin >> c;
-                if (m.find(c) != m.end()) cur = cur | (1 << m[c]);
+            cin >> str;
+            if (mode == 1) continue;
+            if (vm[str] == 2) mode = 1;
+            if (vm[str] == 0) {
+                vm[str] = 1;
+                v.push_back(str);
             }
-            if (vm[cur] == 2) mode = 1;
-            if (vm[cur] == 0) {
-                vm[cur] = 1;
-                v.push_back(cur);
-            }
-            else if(vm[cur] == 1) {
+            else if(vm[str] == 1) {
                 mode = 2;
-                vm[cur] += 1;
-                tv.push_back(cur);
+                vm[str] += 1;
+                tv.push_back(str);
             }
         }
         if (mode == 1) { cout << "0\n"; continue; }
