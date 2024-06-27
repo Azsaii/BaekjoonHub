@@ -4,6 +4,8 @@
 using namespace std;
 
 int main(){
+    ios_base::sync_with_stdio(0);
+	cin.tie(0); cout.tie(0);
     int N, left = 0, right = 1, maxv = 1;
     cin >> N;
     unordered_map<int, int> m;
