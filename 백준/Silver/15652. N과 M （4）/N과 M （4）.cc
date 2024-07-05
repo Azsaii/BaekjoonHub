@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 int n, m;
-char v[20];
+char v[18];
 void dfs(int ci, int cur){
     if(ci >= m){
         cout << v << '\n';
