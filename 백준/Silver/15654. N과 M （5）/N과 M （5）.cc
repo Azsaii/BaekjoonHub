@@ -3,20 +3,19 @@
 #include <vector>
 using namespace std;
 int n, m, t;
-vector<int> v, org;
+vector<int> v(8), org;
 vector<bool> ch;
 void dfs(int ci){
-    if(v.size() == m){
-        for(int i : v) cout << i << ' ';
+    if(ci == m){
+        for(int i = 0; v[i] != 0; i++) cout << v[i] << ' ';
         cout << '\n';
         return;
     }
     for(int i = 0; i < n; i++) {
         if(ch[i]) continue;
         ch[i] = 1;
-        v.push_back(org[i]);
+        v[ci] = org[i];
         dfs(ci + 1);
-        v.pop_back();
         ch[i] = 0;
     }
 }
