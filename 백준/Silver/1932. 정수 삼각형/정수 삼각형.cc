@@ -22,7 +22,7 @@ inline int readInt() {
 }
 int main() {
     int n = readInt();
-    vector<vector<int>> v(n + 1);
+    vector<int> v[501];
     for (int i = 0; i < n; i++) {
         for (int j = 0; j <= i; j++) {
             int t = readInt();
