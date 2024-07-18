@@ -2,30 +2,25 @@
 #include <vector>
 #define pii pair<int, int>
 using namespace std;
-int n, m, t, res = INT32_MAX;
-vector<pii> home, ch;
-vector<bool> vst;
+int n, m, t, hs = 0, cs = 0, res = INT32_MAX;
+pii home[100], ch[13];
+int dst[13][100], vst[13];
 void calc(){
-    int dst = 0;
-    for(int i = 0; i < home.size(); i++) {
-        auto [hr, hc] = home[i];
+    int d = 0;
+    for(int i = 0; i < hs; i++) {
         int minv = INT32_MAX;
-        for(int j = 0; j < ch.size(); j++) {
-            if(!vst[j]) continue;
-            auto [cr, cc] = ch[j];
-            minv = min(minv, abs(hr - cr) + abs(hc - cc));
+        for(int j = 0; j < m; j++) {
+            minv = min(minv, dst[vst[j]][i]);
         }
-        dst += minv;
+        d += minv;
     }
-    res = min(res, dst);
+    res = min(res, d);
 }
 void dfs(int x, int cnt){
     if(cnt == m) calc();
-    for(int i = x; i < ch.size(); i++) {
-        if(vst[i]) continue;
-        vst[i] = 1;
-        dfs(i, cnt + 1);
-        vst[i] = 0;
+    for(int i = x; i < cs; i++) {
+        vst[cnt] = i;
+        dfs(i + 1, cnt + 1);
     }
 }
 int main() {
@@ -35,11 +30,17 @@ int main() {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < n; j++) {
             cin >> t;
-            if(t == 1) home.push_back({i, j});
-            else if(t == 2) ch.push_back({i, j});
+            if(t == 1) home[hs++] = {i, j};
+            else if(t == 2) ch[cs++] = {i, j};
         }
     }
-    vst.resize(ch.size());
+    for(int i = 0; i < cs; i++) {
+        auto [cr, cc] = ch[i];
+        for(int j = 0; j < hs; j++) {
+            auto [hr, hc] = home[j];
+            dst[i][j] = abs(cr - hr) + abs(cc - hc);
+        }
+    }
     dfs(0, 0);
     cout << res;
 }
