@@ -4,14 +4,12 @@ using namespace std;
 vector<vector<pss>> v(10001);
 int res = 0;
 int dfs(int x) {
-    int maxv = 0, s1 = 0, s2 = 0;
+    int maxv = 0;
     for (auto [nc, nv] : v[x]) {
-        int nxt = dfs(nc) + nv;
-        if (s1 < nxt) { s2 = s1; s1 = nxt; }
-        else if (s2 < nxt) s2 = nxt;
-        maxv = max(maxv, nxt);
+        int cur = dfs(nc) + nv + maxv;
+        res = max(res, cur);
+        maxv = max(maxv, cur - maxv);
     }
-    res = max(res, s1 + s2);
     return maxv;
 }
 int main() {
