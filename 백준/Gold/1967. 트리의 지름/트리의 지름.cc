@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #define pss pair<short, short>
 using namespace std;
-vector<vector<pss>> v;
+vector<vector<pss>> v(10001);
 int res = 0;
 int dfs(int x) {
     int maxv = 0, s1 = 0, s2 = 0;
@@ -17,7 +17,6 @@ int dfs(int x) {
 int main() {
     cin.tie(0); cout.tie(0); ios::sync_with_stdio(0);
     int n, a, b, c; cin >> n;
-    v.resize(n + 1);
     for (int i = 0; i < n - 1; i++) {
         cin >> a >> b >> c;
         v[a].push_back({ b, c });
