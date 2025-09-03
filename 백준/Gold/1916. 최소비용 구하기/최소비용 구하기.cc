@@ -1,35 +1,46 @@
-#include <bits/stdc++.h>
-#define pii pair<int, int>
+#include <iostream>
+#include <vector>
+#include <queue>
 using namespace std;
+#define INF 100000001
+#define pii pair<int, int>
+
 int main() {
-    cin.tie(0); cout.tie(0); ios::sync_with_stdio(0);
-    int n, m, val, s, e;
-    cin >> n >> m;
-    vector<vector<pii>> v(n + 1);
-    vector<int> dst(n + 1, INT32_MAX);
-    for (int i = 0; i < m; i++) {
-        cin >> s >> e >> val;
-        v[s].push_back({ val, e });
-    }
-    cin >> s >> e;
-    priority_queue<pii, vector<pii>, greater<pii>> q;
-    q.push({ 0, s });
-    dst[s] = 0;
-    while (!q.empty()) {
-        auto [cv, ci] = q.top();
-        q.pop();
-        //cout << "ci: " << ci << ", cv: " << cv << '\n';
-        if (cv > dst[ci]) continue;
-        for (pii np : v[ci]) {
-            //cout << "np.f: " << np.first << ", s: " << np.second << '\n';
-            int nc = dst[ci] + np.first;
-            //cout << "nc: " << nc << '\n';
-            if (nc < dst[np.second]) {          
-                dst[np.second] = nc;
-                //cout << "dst[" << np.second << "] = " << nc << '\n';
-                q.push(np);
-            }
-        }
-    }
-    cout << dst[e];
+	int N, M, S, E;
+	cin >> N >> M;
+
+	vector<int> mv(N, INF);
+	vector<vector<pii>> distance(N);
+	priority_queue<pii, vector<pii>, greater<pii>> pq;
+
+	for (int i = 0; i < M; i++) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		distance[a - 1].push_back({ b - 1, c });
+	}
+
+	cin >> S >> E;
+
+	mv[S - 1] = 0;
+	pq.push({ 0, S - 1 });
+
+	while (!pq.empty()) {
+		auto it = pq.top();
+		pq.pop();
+
+		int node = it.second;
+		if (it.first > mv[node])continue;
+
+		int size = distance[node].size();
+		for (int i = 0; i < size; i++) {
+			int nextNode = distance[node][i].first;
+			int dist = it.first + distance[node][i].second;
+			if (mv[nextNode] > dist) {
+				mv[nextNode] = dist;
+				pq.push({ dist, nextNode });
+			}
+		}
+	}
+	
+	cout << mv[E - 1];
 }
