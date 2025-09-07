@@ -1,36 +1,34 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
 using namespace std;
+#define pii pair<int, int>
+
 int main() {
-    cin.tie(0); cout.tie(0); ios::sync_with_stdio(0);
-    int n, t;
-    vector<int> maxv(3, -1), minv(3, INT32_MAX);
-    vector<int> v1(3), v2(3);
-    cin >> n;
-    for (int i = 0; i < n; i++) {  
-        for (int j = 0; j < 3; j++) {
-            cin >> t;
-            v1[j] = t; v2[j] = t;
-            if (maxv[j] == -1) { maxv[j] = t, minv[j] = t; continue; }
-            switch (j) {
-            case 0: {
-                v1[j] = t + max(maxv[0], maxv[1]);
-                v2[j] = t + min(minv[0], minv[1]);
-                break;
-            }
-            case 1: {
-                v1[j] = t + max(max(maxv[0], maxv[1]), maxv[2]);
-                v2[j] = t + min(min(minv[0], minv[1]), minv[2]);
-                break;
-            }
-            case 2: {
-                v1[j] = t + max(maxv[1], maxv[2]);
-                v2[j] = t + min(minv[1], minv[2]);
-                break;
-            }
-            }
-        }
-        for (int j = 0; j < 3; j++) { maxv[j] = v1[j], minv[j] = v2[j]; }
-    }
-    cout << max(max(maxv[0], maxv[1]), maxv[2]) << ' ';
-    cout << min(min(minv[0], minv[1]), minv[2]);
+
+	int N, a, b, c;
+	cin >> N;
+
+	pii v[3] = { {0, 0}, {0, 0}, {0, 0} };
+
+	for (int i = 0; i < N; i++) {
+		cin >> a >> b >> c;
+
+		int minv1 = min({ v[0].first, v[1].first});
+		int minv2 = min({ minv1, v[2].first });
+		int minv3 = min({ v[1].first, v[2].first });
+
+		v[0].first = minv1 + a;
+		v[1].first = minv2 + b;
+		v[2].first = minv3 + c;
+
+		int maxv1 = max({ v[0].second, v[1].second });
+		int maxv2 = max({ maxv1, v[2].second });
+		int maxv3 = max({ v[1].second, v[2].second });
+
+		v[0].second = maxv1 + a;
+		v[1].second = maxv2 + b;
+		v[2].second = maxv3 + c;
+	}
+
+	cout << max({ v[0].second, v[1].second, v[2].second }) << ' ' << min({ v[0].first, v[1].first, v[2].first });
 }
