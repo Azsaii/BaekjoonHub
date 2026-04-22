@@ -17,8 +17,12 @@ long long solution(int a, int b) {
         b = t;
     }
 
-    for(int i = a; i <= b; i++){
-        ret += i;
+    int sum = a + b;
+    int nums = b - a + 1;
+    if (a == b) ret = a;
+    else {
+        ret = sum * (nums / 2);
+        if (nums % 2 != 0) ret += (sum / 2);
     }
 
     return ret;
