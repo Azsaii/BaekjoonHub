@@ -5,12 +5,11 @@ using namespace std;
 
 string solution(int n) {
     string ret = "";
-    int cnt = 0;
-    while(1){
-        if (cnt % 2 == 0) ret.append("수");
-        else ret.append("박");
-        cnt++;
-        if(cnt == n) break;
+    int cnt = n / 2;
+    while (cnt != 0) {
+        ret.append("수박");
+        cnt--;
     }
+    if(n % 2 == 1) ret.append("수");
     return ret;
 }
