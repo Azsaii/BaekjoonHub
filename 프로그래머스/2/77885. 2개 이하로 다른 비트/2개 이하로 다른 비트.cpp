@@ -8,15 +8,10 @@ vector<long long> solution(vector<ll> nums) {
     for (const auto& i : nums) {
         if (i % 2 == 0) ret.push_back(i + 1);
         else {
-            ll cnt = 0;
-            ll tmp = i;
-            while (tmp > 0) {
-                cnt++;
-                tmp >>= 1;
-                if (tmp % 2 == 0) break;
-            }
-            tmp = 1;
-            ret.push_back(i + ((tmp << cnt) - (tmp << (cnt - 1))));
+            ll t = 2;
+            while (i & t) t <<= 1;
+            t >>= 1;
+            ret.push_back(i + t);
         }
     }
     return ret;
